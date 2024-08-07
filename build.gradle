@@ -1,0 +1,53 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+
+group 'fr.snaydo.survivaldiscord'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'spigot-repo'
+        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+    }
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation 'net.dv8tion:JDA:5.0.1'
+    compileOnly 'org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT'
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21)) // Utiliser Java 21
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+tasks.withType(Jar) {
+    manifest {
+        attributes(
+                'Main-Class': 'fr.snaydo.survivaldiscord.Main'
+        )
+    }
+}
+
+shadowJar {
+    archiveClassifier.set('')
+    mergeServiceFiles {
+        include 'META-INF/services/**'
+    }
+}
+
+task copyJar(type: Copy) {
+    from tasks.named('shadowJar')
+    into 'D:/dev/localhost3/plugins'
+}
+
+build.finalizedBy(copyJar)

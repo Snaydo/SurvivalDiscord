@@ -1,0 +1,6 @@
+name: SurvivalDiscord
+version: 1.0
+main: fr.snaydo.survivaldiscord.Main
+api-version: 1.21
+description: A plugin to integrate Discord with Minecraft server
+authors: [ "Snaydo" ]
